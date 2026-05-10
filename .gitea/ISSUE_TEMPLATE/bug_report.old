@@ -1,0 +1,46 @@
+---
+name: Bug Report
+about: Report a bug in the TML software
+---
+
+<!-- 
+tModLoader 软件按"原样"提供，不提供任何形式的保证，明示或暗示的，包括但不限于适销性、特定用途适用性和非侵权性的保证。在任何情况下，软件开发者均不对因软件或软件使用或其他交易而产生的任何索赔、损害或其他责任承担责任，无论是合同诉讼、侵权行为还是其他方式。
+
+请在提交问题之前查看常见问题解答。您的问题可能是众所周知的，并且有简单的解决方案。https://github.com/tModLoader/tModLoader/wiki/Basic-tModLoader-Usage-FAQ
+请填写所有必要的详细信息。
+请仅在确定 tModLoader 软件存在问题时才报告问题。
+
+对于支持问题，您应该前往 Discord：https://tmodloader.net/discord
+请事先阅读 #support 频道中的置顶消息。
+
+-->
+
+### 描述
+<!-- 在此描述您的问题。问题是什么？
+请尽可能简洁，最好用一行描述问题。例如：
+"当我在菜单 Y 中按下 X 按钮时，组件 Z 变得无法点击" -->
+
+### 日志文件
+<!-- 请在此附加 client.log 文件。您可以在 logs 文件夹中找到日志文件。查找 client.log 文件。
+Windows 日志：C:\Documents\My Games\Terraria\ModLoader\Logs
+Linux 日志：~/.local/share/Terraria/ModLoader/Logs/ 或 $XDG_DATA_HOME/Terraria/ModLoader/Logs/
+Mac 日志：~/Library/Application support/Terraria/ModLoader/Logs/ -->
+
+### 重现步骤
+<!-- 请描述重现此问题的步骤 -->
+
+1. [第一步]
+2. [第二步]
+3. [依此类推...]
+
+### 预期行为
+<!-- 应该发生什么？如果不知道，请说明您认为应该发生的情况 -->
+
+### 实际行为
+<!-- 实际发生了什么？ -->
+
+### 重现频率
+<!-- 您能够可靠地重现此问题的频率是多少？ -->
+
+### 附加信息
+<!-- 任何可能有助于重现问题的附加信息、配置或数据。 -->
