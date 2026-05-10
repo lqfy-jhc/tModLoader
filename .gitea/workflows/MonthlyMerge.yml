@@ -1,0 +1,103 @@
+# ==================== 月度更新工作流 ====================
+# 此工作流用于每月自动更新 tModLoader 的分支结构
+# 执行顺序：Preview -> Stable，然后 Dev -> Preview
+# 这确保了稳定版始终包含预览版的内容，预览版始终包含开发版的内容
+
+name: Monthly Update tModLoader
+
+# ==================== 环境变量配置 ====================
+# 定义各个分支的名称
+env:
+  DevBranch: 1.4.4 # 开发分支
+  StableBranch: stable # 稳定版分支
+  PreviewBranch: preview # 预览版分支
+
+# ==================== 触发条件 ====================
+# 控制工作流何时运行
+on:
+  # 每月1号 UTC 时间午夜自动运行
+  schedule:
+    - cron: "0 0 1 * *"
+
+  # 允许从 Actions 选项卡手动运行此工作流
+  workflow_dispatch:
+
+# ==================== 作业定义 ====================
+# 一个工作流运行由一个或多个作业组成，可以按顺序或并行运行
+jobs:
+  # ============ 作业1: 合并到稳定版分支 ============
+  # 此作业将 PreviewBranch 的内容强制覆盖到 StableBranch，会销毁 StableBranch 上原有的所有内容
+  MergeToStable:
+    # 作业运行的 Runner 类型（Ubuntu 最新版本）
+    runs-on: ubuntu-latest
+
+    # Steps 代表将作为作业一部分执行的一系列任务
+    steps:
+      # 步骤1: 检出仓库（稳定版分支）
+      - name: Check out repo
+        uses: actions/checkout@v3
+        with:
+          ref: "refs/heads/${{env.StableBranch}}" # 检出稳定版分支
+          token: ${{ secrets.TMODLOADERBOT_TOKEN }} # 使用机器人令牌进行认证
+          persist-credentials: false # 不保存凭证
+          fetch-depth: 0 # 获取完整的历史记录
+
+      # 步骤2: 执行合并操作（强制覆盖）
+      - name: Merge
+        run: |
+          # 设置 GitHub 令牌和仓库信息
+          token=${{ secrets.TMODLOADERBOT_TOKEN }}
+          repo=$GITHUB_REPOSITORY
+
+          # 配置 Git 用户信息
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+
+          # 使用令牌更新远程仓库 URL
+          git remote set-url origin https://x-access-token:$token@github.com/$repo.git
+
+          # 将本地分支强制重置为预览版分支的最新状态
+          git reset --hard origin/${{env.PreviewBranch}}
+
+          # 强制推送到稳定版分支（覆盖原有内容）
+          git push --force origin ${{env.StableBranch}}
+
+  # ============ 作业2: 合并到预览版分支 ============
+  # 此作业将 DevBranch 的内容强制覆盖到 PreviewBranch，会销毁 PreviewBranch 上原有的所有内容
+  MergeToPreview:
+    # 依赖关系：只有在前一个作业（MergeToStable）成功完成后才运行
+    needs: MergeToStable
+
+    # 作业运行的 Runner 类型（Ubuntu 最新版本）
+    runs-on: ubuntu-latest
+
+    # Steps 代表将作为作业一部分执行的一系列任务
+    steps:
+      # 步骤1: 检出仓库（预览版分支）
+      - name: Check out repo
+        uses: actions/checkout@v3
+        with:
+          ref: "refs/heads/${{env.PreviewBranch}}" # 检出预览版分支
+          token: ${{ secrets.TMODLOADERBOT_TOKEN }} # 使用机器人令牌进行认证
+          persist-credentials: false # 不保存凭证
+          fetch-depth: 0 # 获取完整的历史记录
+
+      # 步骤2: 执行合并操作（强制覆盖）
+      - name: Merge
+        run: |
+          # 设置 GitHub 令牌和仓库信息
+          token=${{ secrets.TMODLOADERBOT_TOKEN }}
+          repo=$GITHUB_REPOSITORY
+
+          # 配置 Git 用户信息
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+
+          # 使用令牌更新远程仓库 URL
+          git remote set-url origin https://x-access-token:$token@github.com/$repo.git
+
+          # 将本地分支强制重置为开发版分支的最新状态
+          git reset --hard origin/${{env.DevBranch}}
+
+          # 强制推送到预览版分支（覆盖原有内容）
+          git push --force origin ${{env.PreviewBranch}}

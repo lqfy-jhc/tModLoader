@@ -1,0 +1,54 @@
+# ==================== Alpha 分支更新工作流 ====================
+# 此工作流用于将开发分支的更改合并到 Alpha 测试分支
+# 主要用于开发新功能（如 .NET 8 迁移）的测试
+
+name: Preview tModLoader
+
+# ==================== 环境变量配置 ====================
+env:
+  AlphaBranch: feature/dotnet8 # Alpha 测试分支（用于 .NET 8 迁移开发）
+
+# ==================== 触发条件 ====================
+# 控制工作流何时运行
+on:
+  # 允许从 Actions 选项卡手动运行此工作流
+  workflow_dispatch:
+
+  # 【已注释】原本计划在推送到 1.4.4 分支时自动运行
+  # 目前禁用，改为手动触发以便更好地控制合并时机
+  #push:
+  #branches: [1.4.4]
+
+# ==================== 作业定义 ====================
+# 一个工作流运行由一个或多个作业组成，可以按顺序或并行运行
+jobs:
+  # ============ 作业: 合并到 Alpha 分支 ============
+  # 此作业将开发分支（1.4.4）合并到 Alpha 分支
+  MergeToAlpha:
+    # 作业运行的 Runner 类型（Ubuntu 最新版本）
+    runs-on: ubuntu-latest
+
+    # Steps 代表将作为作业一部分执行的一系列任务
+    steps:
+      # 步骤1: 检出仓库（1.3 分支）
+      # 注意：这里检出 1.3 分支是一个临时解决方案，因为使用的合并工具存在一个 bug
+      # 需要先检出一个与源分支和目标分支都不同的分支才能正常工作
+      - name: Check out repo
+        uses: actions/checkout@v2
+        with:
+          ref: "refs/heads/1.3" # 检出 1.3 分支作为中间步骤
+          persist-credentials: false # 不保存凭证
+          fetch-depth: 0 # 获取完整的历史记录
+
+      # 步骤2: 执行合并操作
+      # 使用 tModLoader 自定义的夜间合并工具进行分支合并
+      # 如果条件为 TRUE，则将 1.4.4 合并到预览分支；如果为 False，则不执行任何操作
+      - name: Merge
+        uses: tModLoader/gh-action-nightly-merge@master
+        with:
+          stable_branch: "1.4.4" # 源分支：稳定开发分支
+          development_branch: ${{env.AlphaBranch}} # 目标分支：Alpha 测试分支
+          allow_ff: true # 允许快进合并
+          ff_only: true # 仅允许快进合并（不创建合并提交）
+        env:
+          GITHUB_TOKEN: ${{ secrets.TMODLOADERBOT_TOKEN }} # GitHub 认证令牌
