@@ -1,0 +1,63 @@
+name: Feature Proposal
+description: Propose a new feature/change for tModLoader
+labels: ["Type: Change/Feature Request", "NEW ISSUE"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        请记住，tModLoader 软件是由社区构建的。
+        通过提交您的提案，您同意它可能成为 tModLoader 的一部分或部分内容。
+        您的提案所需的开发时间可能会有所不同，TML 团队无法给出您的提案何时会被处理或实施的预期时间。
+        TML 团队保留从您的提案中获取想法的权利，但不一定需要接受您的提案。
+  - type: markdown
+    attributes:
+      value: |
+        ## 是否已有相关建议？
+        请搜索查看您希望提出的功能是否已有相关问题。如果有，请在该问题下添加评论，而不是创建新问题。
+        请注意，如果您的提案已经存在（无论是由您还是其他人提出），您的提案很可能会被关闭。
+  - type: dropdown
+    id: contribute
+    attributes:
+      label: 您是否打算亲自贡献/编写此功能？
+      description: 如果您有信心可以贡献此功能，请在获得一些初步反馈后自由开展工作。如果不能，请不要担心，有很多人可以提供帮助，建议本身就很棒。
+      multiple: false
+      options:
+        - "Yes"
+        - "No"
+    validations:
+      required: true
+  - type: dropdown
+    id: requestor
+    attributes:
+      label: 我希望看到此更改是为了改善我在以下方面的体验
+      description: 为了帮助理解问题，我们想知道此更改的主要用例是帮助您创建模组、改善玩 TML 的体验，还是作为维护者改善 TML 本身的代码库
+      multiple: false
+      options:
+        - "Mod capability as a Modder"
+        - "Gameplay as a Player"
+        - "tModLoader code as a Contributor/Maintainer"
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: 描述
+      description: |
+        描述您的提案。
+      placeholder: |
+        一个名为 HookName 的新钩子可以允许模组作者...
+  - type: textarea
+    id: why
+    attributes:
+      label: 此提案试图解决或改进什么？
+      description: |
+        描述您的提案对 tModLoader 软件有何益处。请列出新功能的示例用例，例如描述模组如何使用新功能的示例。
+      placeholder: |
+        当前无法编写模组来实现...
+        此新功能将允许模组实现...
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 应该考虑哪些（其他）解决方案？
+      description: |
+        您的提案是否有替代方案？请在此列出。如果不适用，可以留空。

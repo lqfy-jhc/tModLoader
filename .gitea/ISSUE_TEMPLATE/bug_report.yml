@@ -1,0 +1,115 @@
+name: Bug Report
+description: Report a bug in the TML software
+labels: ["Type: Bug", "NEW ISSUE"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        > tModLoader 软件按"原样"提供，不提供任何形式的保证，明示或暗示的，包括但不限于适销性、特定用途适用性和非侵权性的保证。在任何情况下，软件开发者均不对因软件或软件使用或其他交易而产生的任何索赔、损害或其他责任承担责任，无论是合同诉讼、侵权行为还是其他方式。
+
+        请在提交问题**之前查看常见问题解答**。您的问题可能是众所周知的，并且有简单的解决方案。[基本 tModLoader 使用常见问题](https://github.com/tModLoader/tModLoader/wiki/Basic-tModLoader-Usage-FAQ)
+        请填写所有必要的详细信息。
+        请仅在确定 tModLoader 软件存在问题时才报告问题。
+
+        如果您在使用**某个特定模组**时遇到问题，请向该模组的作者报告，而不是在这里。
+
+        如果您在安装 tModLoader 时遇到问题，这不适合在 bug 跟踪器中提交。这是一个支持问题，不是 bug。对于支持问题，您应该前往 [Discord](http://discord.gg/tmodloader)
+        请事先阅读 `#support-forum` 频道中的置顶消息。
+  - type: markdown
+    attributes:
+      value: |
+        ## 是否已有相关问题？
+        请使用问题页面上的搜索栏搜索，查看您遇到的 bug 是否已有相关问题。如果有，请在该问题下添加评论，而不是创建新问题。您也可以用 👍 来为问题排序以提高优先级。
+  - type: dropdown
+    attributes:
+      label: 版本
+      description: 您正在运行的版本是？
+      multiple: false
+      options:
+        - Latest 1.4.4-stable
+        - Latest 1.4.4-preview
+        - Latest 1.4.5-dev
+        - Latest 1.4.3-legacy
+        - Latest 1.3-legacy
+        - Self-Compiled (please specify branch)
+        - Other (please specify elsewhere)
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: 操作系统
+      description: 您使用的是什么操作系统？
+      multiple: false
+      options:
+        - Windows
+        - Mac
+        - Linux
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: 平台
+      description: 您从哪个商店购买的 Terraria？
+      multiple: false
+      options:
+        - Steam
+        - GOG
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: 此 bug 影响...
+      description: 为了帮助理解问题，我们想知道这是面向玩家的 bug 还是面向模组作者的 bug。
+      multiple: false
+      options:
+        - "Mod capability as a Modder"
+        - "Gameplay as a Player"
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 描述
+      id: description
+      description: |
+        在此描述您的问题。问题是什么？
+        请尽可能简洁，最好用一行描述问题。
+        例如："当我在菜单 Y 中按下 X 按钮时，组件 Z 变得无法点击"
+  - type: textarea
+    attributes:
+      label: 日志文件
+      description: |
+        请在此附加日志文件。您可以在 logs 文件夹中找到日志文件。查找 `client.log`、`Launch.log`、`Natives.log` 和 `environment-client.log` 文件。如果问题与多人游戏相关，请同时发布 `server.log` 和 `environment-sever.log` 文件。
+
+        在 1.4+ 版本中，它们可以在 tModLoader [安装目录](https://github.com/tModLoader/tModLoader/wiki/Basic-tModLoader-Usage-Guide#install) 的 "tModLoader-Logs" 文件夹中找到（要在 Steam 上找到安装目录，请右键点击 tModloader，然后选择管理和"浏览本地文件"）。
+
+        在 1.3 版本中，它可以在 [存档文件夹](https://github.com/tModLoader/tModLoader/wiki/Basic-tModLoader-Usage-Guide#saves) 内的 Logs 文件夹中找到。
+
+        提示：您可以通过点击此区域将其高亮，然后拖放文件来附加图片或日志文件。
+  - type: textarea
+    attributes:
+      label: 重现步骤
+      description: 请描述重现此问题的步骤。
+      placeholder: |
+        1. [第一步]
+        2. [第二步]
+        3. [依此类推...]
+  - type: textarea
+    attributes:
+      label: 预期行为
+      description: |
+        应该发生什么？如果不知道，请说明您认为应该发生的情况。
+  - type: textarea
+    attributes:
+      label: 实际行为
+      description: |
+        实际发生了什么？
+  - type: textarea
+    attributes:
+      label: 重现频率
+      description: |
+        您能够可靠地重现此问题的频率是多少？
+  - type: textarea
+    attributes:
+      label: 附加信息
+      description: |
+        任何可能有助于重现问题的附加信息、配置或数据。
