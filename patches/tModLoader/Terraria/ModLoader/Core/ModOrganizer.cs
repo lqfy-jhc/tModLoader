@@ -204,16 +204,37 @@ internal static class ModOrganizer
 	{
 		return modPath.Contains(Path.Combine("workshop"), StringComparison.InvariantCultureIgnoreCase);
 	}
-
 	internal static string DetectAbnormalSteamWorkshopDownloads(out Action resolveAbnormalDownloads, out string continueButton, out string cancelButton)
 	{
 		//TODO: What happens if this is run on GoG or Family Share where it is using SteamGameServer and 'Subscribed' doesn't exist?
 		// Not tested -- 90% sure it should work fine since this code doesn't rely on Steam Workshop Subscription status to work. -- Solxan
+		
+		// 初始化输出参数
+		resolveAbnormalDownloads = null;
+		continueButton = string.Empty;
+		cancelButton = string.Empty;
 
-		// During initialize it forces update of CachedInstalledModDownloadItems
-		WorkshopBrowserModule.Instance.Initialize();
+		// 非 Steam 平台直接跳过
+		if (SocialAPI.Steam == null)
+			return string.Empty;
+
+		try
+		{
+			// During initialize it forces update of CachedInstalledModDownloadItems
+			WorkshopBrowserModule.Instance.Initialize();
+		}
+		catch (Exception e)
+		{
+			Logging.tML.Warn("Workshop module initialization failed", e);
+			return string.Empty;
+		}
 
 		var foundMDItems = WorkshopBrowserModule.Instance.CachedInstalledModDownloadItems;
+		if (foundMDItems == null)
+		{
+			Logging.tML.Warn("CachedInstalledModDownloadItems is null after initialization");
+			return string.Empty;
+		}
 
 		// if found installed mod download item that is newer then those in workshopDownloads and under a different publish ID
 		var reuploadMDItems = foundMDItems.Where(a => a.IsReupload());
