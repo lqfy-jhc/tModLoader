@@ -210,6 +210,16 @@ internal static class ModOrganizer
 		//TODO: What happens if this is run on GoG or Family Share where it is using SteamGameServer and 'Subscribed' doesn't exist?
 		// Not tested -- 90% sure it should work fine since this code doesn't rely on Steam Workshop Subscription status to work. -- Solxan
 
+		resolveAbnormalDownloads = null;
+		continueButton = string.Empty;
+		cancelButton = string.Empty;
+
+		// 非 Steam 平台或 Workshop 模块未初始化时直接返回
+		if (WorkshopBrowserModule.Instance?.CachedInstalledModDownloadItems == null)
+		{
+			return string.Empty;
+		}
+		
 		// During initialize it forces update of CachedInstalledModDownloadItems
 		WorkshopBrowserModule.Instance.Initialize();
 
